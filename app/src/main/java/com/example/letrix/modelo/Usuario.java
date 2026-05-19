@@ -30,7 +30,7 @@ public class Usuario {
         return contrasena;
     }
 
-    public void setContraseña(String contrasena) {
+    public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
 

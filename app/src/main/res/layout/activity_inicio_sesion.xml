@@ -12,7 +12,7 @@
     tools:context=".vista.inicio_sesion">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnIniciarSesion"
         android:layout_width="201dp"
         android:layout_height="68dp"
         android:text="JUGAR"
@@ -21,7 +21,7 @@
         tools:layout_editor_absoluteY="525dp" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/editUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -35,7 +35,7 @@
         tools:layout_editor_absoluteY="369dp" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/editContrasena"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"

@@ -6,65 +6,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    android:backgroundTint="#000000"
     tools:context=".vista.registro">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logoletrix" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         android:text="LETRIX"
         android:textColor="#FFEBEE"
-        android:textColorHighlight="#FFEBEE"
-        android:textColorHint="#FFEBEE"
-        android:textColorLink="#FFEBEE"
         android:textSize="60sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="106dp"
-        tools:layout_editor_absoluteY="62dp" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="428dp"
-        android:layout_height="370dp"
-        app:srcCompat="@drawable/logoletrix"
-        tools:layout_editor_absoluteX="-9dp"
-        tools:layout_editor_absoluteY="62dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editRegistroUsuario"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:ems="10"
+        android:hint="USUARIO"
         android:inputType="text"
-        android:text="USUARIO"
         android:textColor="#FFEBEE"
-        android:textColorHighlight="#FFEBEE"
-        android:textColorHint="#FFEBEE"
-        android:textColorLink="#FFEBEE"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="373dp" />
+        android:textColorHint="#88FFEBEE"
+        app:layout_constraintBottom_toTopOf="@+id/editRegistroContrasena"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
         android:id="@+id/editRegistroContrasena"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="CONTRASEÑA"
+        android:hint="CONTRASEÑA"
+        android:inputType="textPassword"
         android:textColor="#FFEBEE"
-        android:textColorHighlight="#FFEBEE"
-        android:textColorHint="#FFEBEE"
-        android:textColorLink="#FFEBEE"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="458dp" />
+        android:textColorHint="#88FFEBEE"
+        app:layout_constraintBottom_toTopOf="@+id/btnCrearCuenta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRegistroUsuario" />
 
     <Button
         android:id="@+id/btnCrearCuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="64dp"
         android:text="CREAR CUENTA"
         android:textSize="34sp"
-        tools:layout_editor_absoluteX="58dp"
-        tools:layout_editor_absoluteY="564dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRegistroContrasena" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

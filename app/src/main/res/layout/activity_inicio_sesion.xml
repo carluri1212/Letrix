@@ -48,6 +48,16 @@
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="442dp" />
 
+    <androidx.constraintlayout.helper.widget.Layer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="166dp"
+        tools:layout_editor_absoluteY="161dp" />
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"

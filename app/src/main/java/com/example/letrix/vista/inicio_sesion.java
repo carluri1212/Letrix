@@ -23,6 +23,7 @@ public class inicio_sesion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_sesion);
 
+
         // Montar la cadena Vista -> Controlador -> DAO
         UsuarioDAO usuarioDAO = new UsuarioDAO(this);
         controladorUsuario = new ControladorUsuario(usuarioDAO);

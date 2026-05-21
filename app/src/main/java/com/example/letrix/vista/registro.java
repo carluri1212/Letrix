@@ -37,8 +37,19 @@ public class registro extends AppCompatActivity {
         btnCrearCuenta.setOnClickListener(v -> {
             String usuario = editUsuario.getText().toString();
             String contrasena = editContrasena.getText().toString();
+
+            if (usuario.isEmpty() || contrasena.isEmpty()) {
+                Toast.makeText(this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             ResultadoOperacion resultado = controladorUsuario.registrarUsuario(usuario, contrasena);
             Toast.makeText(this, resultado.getMensaje(), Toast.LENGTH_SHORT).show();
+
+            if (resultado.isExito()) {
+                // Si el registro es correcto, volvemos a la pantalla de login
+                finish();
+            }
         });
     }
 }

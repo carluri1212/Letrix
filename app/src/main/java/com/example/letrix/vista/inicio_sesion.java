@@ -28,7 +28,6 @@ public class inicio_sesion extends AppCompatActivity {
 
         // Montar la cadena Vista -> Controlador -> DAO
         UsuarioDAO usuarioDAO = new UsuarioDAO(this);
-        controladorUsuario = new ControladorUsuario(usuarioDAO);
 
         // Enlazar con el layout
         editUsuario = findViewById(R.id.editUsuario);

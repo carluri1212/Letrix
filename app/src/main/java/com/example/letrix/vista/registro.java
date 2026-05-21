@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.letrix.Controlador.ControladorUsuario;
 import com.example.letrix.Controlador.ResultadoOperacion;
 import com.example.letrix.R;
-import com.example.letrix.modelo.UsuarioDAO;
-import com.example.letrix.modelo.UsuarioDAOInterfaz;
 
 public class registro extends AppCompatActivity {
 
@@ -25,8 +23,7 @@ public class registro extends AppCompatActivity {
         setContentView(R.layout.activity_registro);
 
         // Montar la cadena Vista -> Controlador -> DAO
-        UsuarioDAOInterfaz usuarioDAO = new UsuarioDAO(this);
-        controladorUsuario = new ControladorUsuario(usuarioDAO);
+        controladorUsuario = new ControladorUsuario(this);
 
         // Enlazar con el layout
         editUsuario = findViewById(R.id.editRegistroUsuario);

@@ -29,7 +29,7 @@
         android:layout_height="370dp"
         app:srcCompat="@drawable/logoletrix"
         tools:layout_editor_absoluteX="-9dp"
-        tools:layout_editor_absoluteY="62dp" />
+        tools:layout_editor_absoluteY="81dp" />
 
     <EditText
         android:id="@+id/editRegistroUsuario"

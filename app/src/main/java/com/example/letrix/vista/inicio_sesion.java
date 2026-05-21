@@ -2,6 +2,7 @@ package com.example.letrix.vista;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class inicio_sesion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_sesion);
+        controladorUsuario = new ControladorUsuario(this);
 
 
         // Montar la cadena Vista -> Controlador -> DAO
@@ -33,33 +35,39 @@ public class inicio_sesion extends AppCompatActivity {
         editUsuario = findViewById(R.id.editUsuario);
         editContrasena = findViewById(R.id.editContrasena);
         Button btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
-        TextView txtRegistrate = findViewById(R.id.textView2);
 
         // Que hacer al pulsar el boton Iniciar Sesión
-        btnIniciarSesion.setOnClickListener(v -> {
-            String usuario = editUsuario.getText().toString();
-            String contrasena = editContrasena.getText().toString();
-            
-            if (usuario.isEmpty() || contrasena.isEmpty()) {
-                Toast.makeText(this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String usuario = editUsuario.getText().toString();
+                String contrasena = editContrasena.getText().toString();
 
-            ResultadoOperacion resultado = controladorUsuario.iniciarSesion(usuario, contrasena);
-            Toast.makeText(this, resultado.getMensaje(), Toast.LENGTH_SHORT).show();
+                if (usuario.isEmpty() || contrasena.isEmpty()) {
+                    Toast.makeText(inicio_sesion.this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            if (resultado.isExito()) {
-                // Ir a la pantalla principal del juego
-                Intent intent = new Intent(inicio_sesion.this, MainActivity.class);
-                startActivity(intent);
-                finish(); // Cerramos esta actividad para que no pueda volver atrás al login
+                ResultadoOperacion resultado = controladorUsuario.iniciarSesion(usuario, contrasena);
+                Toast.makeText(inicio_sesion.this, resultado.getMensaje(), Toast.LENGTH_SHORT).show();
+
+                if (resultado.isExito()) {
+                    Intent intent = new Intent(inicio_sesion.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
-        // Navegación a la pantalla de registro
-        txtRegistrate.setOnClickListener(v -> {
-            Intent intent = new Intent(inicio_sesion.this, registro.class);
-            startActivity(intent);
+        // Botón registro
+        Button btnRegistrate = findViewById(R.id.button);
+
+        btnRegistrate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(inicio_sesion.this, registro.class);
+                startActivity(intent);
+            }
         });
     }
 }

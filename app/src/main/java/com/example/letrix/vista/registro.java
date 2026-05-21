@@ -1,6 +1,7 @@
 package com.example.letrix.vista;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,21 +32,23 @@ public class registro extends AppCompatActivity {
         Button btnCrearCuenta = findViewById(R.id.btnCrearCuenta);
 
         // Que hacer al pulsar el boton
-        btnCrearCuenta.setOnClickListener(v -> {
-            String usuario = editUsuario.getText().toString();
-            String contrasena = editContrasena.getText().toString();
+        btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String usuario = editUsuario.getText().toString();
+                String contrasena = editContrasena.getText().toString();
 
-            if (usuario.isEmpty() || contrasena.isEmpty()) {
-                Toast.makeText(this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                if (usuario.isEmpty() || contrasena.isEmpty()) {
+                    Toast.makeText(registro.this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            ResultadoOperacion resultado = controladorUsuario.registrarUsuario(usuario, contrasena);
-            Toast.makeText(this, resultado.getMensaje(), Toast.LENGTH_SHORT).show();
+                ResultadoOperacion resultado = controladorUsuario.registrarUsuario(usuario, contrasena);
+                Toast.makeText(registro.this, resultado.getMensaje(), Toast.LENGTH_SHORT).show();
 
-            if (resultado.isExito()) {
-                // Si el registro es correcto, volvemos a la pantalla de login
-                finish();
+                if (resultado.isExito()) {
+                    finish();
+                }
             }
         });
     }

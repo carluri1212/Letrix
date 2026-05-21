@@ -7,13 +7,4 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:backgroundTint="#000000"
-    tools:context=".vista.modo_juego">
-
-    <ImageButton
-        android:id="@+id/imageButton14"
-        android:layout_width="224dp"
-        android:layout_height="271dp"
-        app:srcCompat="@drawable/captura_desde_2026_05_20_10_35_52"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="292dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".vista.modo_juego"/>

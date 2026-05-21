@@ -14,6 +14,6 @@
         android:layout_width="224dp"
         android:layout_height="271dp"
         app:srcCompat="@drawable/captura_desde_2026_05_20_10_35_52"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="292dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

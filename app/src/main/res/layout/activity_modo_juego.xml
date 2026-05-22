@@ -7,4 +7,30 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:backgroundTint="#000000"
-    tools:context=".vista.modo_juego"/>
+    tools:context=".vista.modo_juego">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="209dp"
+        android:layout_height="278dp"
+        app:srcCompat="@drawable/geografia"
+        tools:layout_editor_absoluteX="3dp"
+        tools:layout_editor_absoluteY="64dp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="198dp"
+        android:layout_height="265dp"
+        app:srcCompat="@drawable/deporte"
+        tools:layout_editor_absoluteX="212dp"
+        tools:layout_editor_absoluteY="393dp" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="195dp"
+        android:layout_height="265dp"
+        app:srcCompat="@drawable/anatomia"
+        tools:layout_editor_absoluteX="3dp"
+        tools:layout_editor_absoluteY="393dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

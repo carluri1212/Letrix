@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,9 +26,6 @@ public class inicio_sesion extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_sesion);
         controladorUsuario = new ControladorUsuario(this);
 
-
-        // Montar la cadena Vista -> Controlador -> DAO
-        UsuarioDAO usuarioDAO = new UsuarioDAO(this);
 
         // Enlazar con el layout
         editUsuario = findViewById(R.id.editUsuario);

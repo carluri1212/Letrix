@@ -1,46 +1,58 @@
 package com.example.letrix.modelo.palabra;
 
-import java.sql.*;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import com.example.letrix.modelo.LetrixSQLiteHelper;
+
 public class PalabraDAO {
 
-    private Connection connection;
+    private final LetrixSQLiteHelper helper;
 
-    public PalabraDAO(Connection connection) {
-        this.connection = connection;
+    public PalabraDAO(Context context) {
+        this.helper = new LetrixSQLiteHelper(context);
     }
 
-    // Metodo donde obtenemos una palabra aleatoria según la categoría que hemos elegido
-    public Palabra obtenerPalabraAleatoria(String idCategoria) throws SQLException {
-        String sql = "SELECT * FROM Palabra WHERE idCategoria = ? ORDER BY RAND() LIMIT 1";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, idCategoria);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+    // Obtenemos una palabra aleatoria según la categoría elegida
+    public Palabra obtenerPalabraAleatoria(String idCategoria) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(LetrixSQLiteHelper.TABLA_PALABRA, null,
+                    LetrixSQLiteHelper.COLUMNA_ID_CATEGORIA + "=?",
+                    new String[]{idCategoria},
+                    null, null, "RANDOM()", "1");
+            if (cursor.moveToFirst()) {
                 return new Palabra(
-                        rs.getString("id"),
-                        rs.getString("texto"),
-                        rs.getString("idCategoria")
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_TEXTO)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID_CATEGORIA))
                 );
             }
+        } finally {
+            if (cursor != null) cursor.close();
         }
         return null;
     }
 
-    // Metodo donde obtenemos una palabra por id (Palabra.java) (Lo usamos para recuperar una partida guardada)
-    public Palabra obtenerPorId(String id) throws SQLException {
-        String sql = "SELECT * FROM Palabra WHERE id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+    // Obtenemos una palabra por id (para recuperar una partida guardada)
+    public Palabra obtenerPorId(String id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(LetrixSQLiteHelper.TABLA_PALABRA, null,
+                    LetrixSQLiteHelper.COLUMNA_ID + "=?", new String[]{id},
+                    null, null, null);
+            if (cursor.moveToFirst()) {
                 return new Palabra(
-                        rs.getString("id"),
-                        rs.getString("texto"),
-                        rs.getString("idCategoria")
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_TEXTO)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID_CATEGORIA))
                 );
             }
+        } finally {
+            if (cursor != null) cursor.close();
         }
         return null;
     }
-
 }

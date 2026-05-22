@@ -1,40 +1,57 @@
 package com.example.letrix.modelo.categoria;
 
-import java.sql.*;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import com.example.letrix.modelo.LetrixSQLiteHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class CategoriaDAO {
 
-    private Connection connection;
+    private final LetrixSQLiteHelper helper;
 
-    public CategoriaDAO(Connection connection) {
-        this.connection = connection;
+    public CategoriaDAO(Context context) {
+        this.helper = new LetrixSQLiteHelper(context);
     }
 
-    // Cargamos las 4 categorías para mostrarlas por pantalla.
-    public List<Categoria> obtenerTodas() throws SQLException {
+    // Cargar las categorías para mostrarlas en pantalla
+    public List<Categoria> obtenerTodas() {
         List<Categoria> lista = new ArrayList<>();
-        String sql = "SELECT * FROM Categoria";
-        try (Statement st = connection.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            while (rs.next()) {
-                lista.add(new Categoria(rs.getString("id"), rs.getString("nombreCategoria")));
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(LetrixSQLiteHelper.TABLA_CATEGORIA, null, null, null, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    lista.add(new Categoria(
+                            cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_NOMBRE_CATEGORIA))
+                    ));
+                } while (cursor.moveToNext());
             }
+        } finally {
+            if (cursor != null) cursor.close();
         }
         return lista;
     }
 
-    // Recuperaramos la categoría elegida por el usuario para luego entrar en el juego
-    public Categoria obtenerPorId(String id) throws SQLException {
-        String sql = "SELECT * FROM Categoria WHERE id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return new Categoria(rs.getString("id"), rs.getString("nombreCategoria"));
+    // Recuperar la categoría elegida por el usuario
+    public Categoria obtenerPorId(String id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(LetrixSQLiteHelper.TABLA_CATEGORIA, null,
+                    LetrixSQLiteHelper.COLUMNA_ID + "=?", new String[]{id},
+                    null, null, null);
+            if (cursor.moveToFirst()) {
+                return new Categoria(
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_NOMBRE_CATEGORIA))
+                );
             }
+        } finally {
+            if (cursor != null) cursor.close();
         }
         return null;
     }

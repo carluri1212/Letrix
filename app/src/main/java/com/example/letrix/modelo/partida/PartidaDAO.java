@@ -1,51 +1,62 @@
 package com.example.letrix.modelo.partida;
 
-import java.sql.*;
-public class PartidaDAO {
-    private Connection connection;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import com.example.letrix.modelo.LetrixSQLiteHelper;
 
-    public PartidaDAO(Connection connection) {
-        this.connection = connection;
+public class PartidaDAO {
+
+    private final LetrixSQLiteHelper helper;
+
+    public PartidaDAO(Context context) {
+        this.helper = new LetrixSQLiteHelper(context);
     }
 
     // Crear una partida nueva al empezar el juego
-    public void insertar(Partida partida) throws SQLException {
-        String sql = "INSERT INTO Partida (idUsuario, idPalabra, numeroIntentos, resultado) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, partida.getIdUsuario());
-            ps.setString(2, partida.getIdPalabra());
-            ps.setInt(3, partida.getNumeroIntentos());
-            ps.setInt(4, partida.isResultado() ? 1 : 0);
-            ps.executeUpdate();
-        }
+    public void insertar(Partida partida) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(LetrixSQLiteHelper.COLUMNA_ID_USUARIO, partida.getIdUsuario());
+        values.put(LetrixSQLiteHelper.COLUMNA_ID_PALABRA, partida.getIdPalabra());
+        values.put(LetrixSQLiteHelper.COLUMNA_NUMERO_INTENTOS, partida.getNumeroIntentos());
+        values.put(LetrixSQLiteHelper.COLUMNA_RESULTADO, partida.isResultado() ? 1 : 0);
+        long idGenerado = db.insert(LetrixSQLiteHelper.TABLA_PARTIDA, null, values);
+        partida.setId((int) idGenerado);
     }
 
-    // Actualizar la partida cuando termina (guarda intentos y resultado final)
-    public void actualizar(Partida partida) throws SQLException {
-        String sql = "UPDATE Partida SET numeroIntentos = ?, resultado = ? WHERE id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, partida.getNumeroIntentos());
-            ps.setInt(2, partida.isResultado() ? 1 : 0);
-            ps.setInt(3, partida.getId());
-            ps.executeUpdate();
-        }
+    // Actualizar la partida cuando termina
+    public void actualizar(Partida partida) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(LetrixSQLiteHelper.COLUMNA_NUMERO_INTENTOS, partida.getNumeroIntentos());
+        values.put(LetrixSQLiteHelper.COLUMNA_RESULTADO, partida.isResultado() ? 1 : 0);
+        db.update(LetrixSQLiteHelper.TABLA_PARTIDA, values,
+                LetrixSQLiteHelper.COLUMNA_ID + "=?",
+                new String[]{String.valueOf(partida.getId())});
     }
 
     // Obtener la partida por id
-    public Partida obtenerPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM Partida WHERE id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+    public Partida obtenerPorId(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(LetrixSQLiteHelper.TABLA_PARTIDA, null,
+                    LetrixSQLiteHelper.COLUMNA_ID + "=?",
+                    new String[]{String.valueOf(id)},
+                    null, null, null);
+            if (cursor.moveToFirst()) {
                 return new Partida(
-                        rs.getInt("id"),
-                        rs.getString("idUsuario"),
-                        rs.getString("idPalabra"),
-                        rs.getInt("numeroIntentos"),
-                        rs.getBoolean("resultado")
+                        cursor.getInt(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID_USUARIO)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_ID_PALABRA)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_NUMERO_INTENTOS)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(LetrixSQLiteHelper.COLUMNA_RESULTADO)) == 1
                 );
             }
+        } finally {
+            if (cursor != null) cursor.close();
         }
         return null;
     }

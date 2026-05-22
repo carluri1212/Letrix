@@ -6,31 +6,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    android:backgroundTint="#000000"
     tools:context=".vista.modo_juego">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="209dp"
-        android:layout_height="278dp"
-        app:srcCompat="@drawable/geografia"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="64dp" />
+    <!-- Fila Superior -->
+    <ImageButton
+        android:id="@+id/btnGeografia"
+        android:layout_width="170dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="64dp"
+        android:adjustViewBounds="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/btnAnatomia"
+        app:layout_constraintEnd_toStartOf="@+id/btnCine"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:srcCompat="@drawable/geograf_a" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="198dp"
-        android:layout_height="265dp"
-        app:srcCompat="@drawable/deporte"
-        tools:layout_editor_absoluteX="212dp"
-        tools:layout_editor_absoluteY="393dp" />
+    <ImageButton
+        android:id="@+id/btnCine"
+        android:layout_width="170dp"
+        android:layout_height="240dp"
+        android:adjustViewBounds="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGeografia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnGeografia"
+        app:layout_constraintTop_toTopOf="@+id/btnGeografia"
+        app:srcCompat="@drawable/cine" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="195dp"
-        android:layout_height="265dp"
-        app:srcCompat="@drawable/anatomia"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="393dp" />
+    <!-- Fila Inferior -->
+    <ImageButton
+        android:id="@+id/btnAnatomia"
+        android:layout_width="170dp"
+        android:layout_height="240dp"
+        android:layout_marginBottom="64dp"
+        android:adjustViewBounds="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeporte"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGeografia"
+        app:srcCompat="@drawable/anatomia" />
+
+    <ImageButton
+        android:id="@+id/btnDeporte"
+        android:layout_width="170dp"
+        android:layout_height="240dp"
+        android:adjustViewBounds="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAnatomia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnAnatomia"
+        app:layout_constraintTop_toTopOf="@+id/btnAnatomia"
+        app:srcCompat="@drawable/deporte" />
+
+    <!-- Texto Central -->
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="ELIGE LA TEMÁTICA DE LA PALABRA QUE TENDRÁS QUE ADIVINAR"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

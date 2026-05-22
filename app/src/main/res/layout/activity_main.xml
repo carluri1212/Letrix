@@ -5,13 +5,30 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".vista.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="136dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logoletrix" />
 
     <Button
         android:id="@+id/btnJugar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SELECCIONAR MODO"
-        tools:layout_editor_absoluteX="127dp"
-        tools:layout_editor_absoluteY="325dp" />
+        android:textSize="20sp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

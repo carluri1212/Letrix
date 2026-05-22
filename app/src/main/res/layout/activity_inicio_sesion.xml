@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/imageView11"
-        android:layout_width="186dp"
-        android:layout_height="262dp"
+        android:layout_width="150dp"
+        android:layout_height="210dp"
         android:alpha="0.5"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -111,9 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="¿NO TIENES CUENTA? REGÍSTRATE AQUÍ"
+        android:text="¿NO TIENES CUENTA? REGÍSTRATE "
         android:textColor="#FFEBEE"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

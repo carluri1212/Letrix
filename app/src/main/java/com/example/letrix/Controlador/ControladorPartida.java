@@ -1,5 +1,7 @@
 package com.example.letrix.Controlador;
 
+import com.example.letrix.modelo.letra.EstadoLetra;
+
 import java.util.HashMap;
 public class ControladorPartida {
     // Numero maximo de intentos por partida (como en Wordle: 6).

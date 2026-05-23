@@ -13,6 +13,7 @@ import com.example.letrix.Controlador.ControladorUsuario;
 import com.example.letrix.Controlador.ResultadoOperacion;
 import com.example.letrix.R;
 import com.example.letrix.modelo.UsuarioDAO;
+import com.example.letrix.Controlador.ControladorFichero;
 
 public class inicio_sesion extends AppCompatActivity {
 
@@ -26,6 +27,9 @@ public class inicio_sesion extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_sesion);
         controladorUsuario = new ControladorUsuario(this);
 
+        // Cargar el diccionario de palabras la primera vez que arranca la app.
+        ControladorFichero controladorFichero = new ControladorFichero(this);
+        controladorFichero.cargarDiccionarioSiVacio();
 
         // Enlazar con el layout
         editUsuario = findViewById(R.id.editUsuario);

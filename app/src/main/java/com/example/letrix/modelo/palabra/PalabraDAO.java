@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.example.letrix.modelo.LetrixSQLiteHelper;
+import android.content.ContentValues;
 
 public class PalabraDAO {
 
@@ -54,5 +55,32 @@ public class PalabraDAO {
             if (cursor != null) cursor.close();
         }
         return null;
+    }
+
+
+
+    // Inserta una palabra nueva en la BBDD
+    public void insertar(Palabra palabra) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues valores = new ContentValues();
+        valores.put(LetrixSQLiteHelper.COLUMNA_TEXTO, palabra.getTexto());
+        valores.put(LetrixSQLiteHelper.COLUMNA_ID_CATEGORIA, palabra.getIdCategoria());
+        db.insert(LetrixSQLiteHelper.TABLA_PALABRA, null, valores);
+    }
+
+    // Cuenta cuantas palabras hay en la BBDD
+    public int contarPalabras() {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        int total = 0;
+        try {
+            cursor = db.rawQuery("SELECT COUNT(*) FROM " + LetrixSQLiteHelper.TABLA_PALABRA, null);
+            if (cursor.moveToFirst()) {
+                total = cursor.getInt(0);
+            }
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return total;
     }
 }

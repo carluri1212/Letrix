@@ -1,302 +1,149 @@
 package com.example.letrix.vista;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.letrix.Controlador.ControladorPartida;
-import com.example.letrix.modelo.letra.EstadoLetra;
 import com.example.letrix.R;
+import com.example.letrix.modelo.categoria.CategoriaDAO;
+import com.example.letrix.modelo.letra.EstadoLetra;
+import com.example.letrix.modelo.palabra.Palabra;
+import com.example.letrix.modelo.palabra.PalabraDAO;
 
-public class juego extends AppCompatActivity {
+    /**
+     * Pantalla del JUEGO en sí.
+     *
+     * Recibe la categoria desde modo_juego (por Intent), pide una palabra
+     * al DAO de Miguel, crea el ControladorPartida (Carlos) y maneja los
+     * intentos del jugador.
+     */
+    public class Juego extends AppCompatActivity {
 
-    // Componentes básicos
-    TextView txtCategoria;
-    TextView txtIntentos;
-    TextView txtMensajeFinal;
-    EditText editPalabra;
-    Button btnComprobar;
+        // Constantes del juego: 5 letras x 6 intentos (como Wordle).
+        private static final int LONGITUD_PALABRA = 5;
+        private static final int MAX_INTENTOS = 6;
 
-    // Fila 0
-    TextView tv00, tv01, tv02, tv03, tv04;
-    // Fila 1
-    TextView tv10, tv11, tv12, tv13, tv14;
-    // Fila 2
-    TextView tv20, tv21, tv22, tv23, tv24;
-    // Fila 3
-    TextView tv30, tv31, tv32, tv33, tv34;
-    // Fila 4
-    TextView tv40, tv41, tv42, tv43, tv44;
-    // Fila 5
-    TextView tv50, tv51, tv52, tv53, tv54;
+        // Logica del juego.
+        private ControladorPartida controladorPartida;
 
-    ControladorPartida controladorPartida;
-    int filaActual = 0;
+        // Elementos de la pantalla.
+        private GridLayout tablero;
+        private EditText editIntento;
+        private Button btnEnviar;
+        private TextView txtMensaje;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_juego);
+        // Fila actual del tablero (0..5). Cada intento "pinta" una fila.
+        private int filaActual = 0;
 
-        // Recibir la temática de modo_juego (sección 5 del PDF)
-        String tematica = getIntent().getStringExtra("TEMATICA");
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_juego);
 
-        // B. Enlazar componentes básicos
-        txtCategoria = findViewById(R.id.txtCategoria);
-        txtIntentos = findViewById(R.id.txtIntentos);
-        txtMensajeFinal = findViewById(R.id.txtMensajeFinal);
-        editPalabra = findViewById(R.id.editPalabra);
-        btnComprobar = findViewById(R.id.btnComprobar);
+            // 1. Recoger la categoria que viene desde modo_juego.
+            String categoria = getIntent().getStringExtra("CATEGORIA");
 
-        // Enlazar los 30 TextViews de la cuadrícula
-        tv00 = findViewById(R.id.tv00);
-        tv01 = findViewById(R.id.tv01);
-        tv02 = findViewById(R.id.tv02);
-        tv03 = findViewById(R.id.tv03);
-        tv04 = findViewById(R.id.tv04);
+            // 2. Conseguir el id de la categoria con el DAO de Miguel.
+            CategoriaDAO categoriaDAO = new CategoriaDAO(this);
+            int idCategoria = categoriaDAO.buscarIdPorNombre(categoria);
 
-        tv10 = findViewById(R.id.tv10);
-        tv11 = findViewById(R.id.tv11);
-        tv12 = findViewById(R.id.tv12);
-        tv13 = findViewById(R.id.tv13);
-        tv14 = findViewById(R.id.tv14);
+            // 3. Pedir una palabra aleatoria de esa categoria.
+            PalabraDAO palabraDAO = new PalabraDAO(this);
+            Palabra palabra = palabraDAO.obtenerPalabraAleatoria(String.valueOf(idCategoria));
 
-        tv20 = findViewById(R.id.tv20);
-        tv21 = findViewById(R.id.tv21);
-        tv22 = findViewById(R.id.tv22);
-        tv23 = findViewById(R.id.tv23);
-        tv24 = findViewById(R.id.tv24);
+            // Si no hay palabras (no deberia pasar, pero por si acaso).
+            if (palabra == null) {
+                Toast.makeText(this, "No hay palabras en esta categoria", Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
 
-        tv30 = findViewById(R.id.tv30);
-        tv31 = findViewById(R.id.tv31);
-        tv32 = findViewById(R.id.tv32);
-        tv33 = findViewById(R.id.tv33);
-        tv34 = findViewById(R.id.tv34);
+            // 4. Crear el controlador de partida y arrancar la partida.
+            controladorPartida = new ControladorPartida();
+            controladorPartida.iniciarPartida(palabra.getTexto());
 
-        tv40 = findViewById(R.id.tv40);
-        tv41 = findViewById(R.id.tv41);
-        tv42 = findViewById(R.id.tv42);
-        tv43 = findViewById(R.id.tv43);
-        tv44 = findViewById(R.id.tv44);
+            // 5. Enlazar elementos de la pantalla.
+            tablero = findViewById(R.id.tablero);
+            editIntento = findViewById(R.id.editIntento);
+            btnEnviar = findViewById(R.id.btnEnviar);
+            txtMensaje = findViewById(R.id.txtMensaje);
 
-        tv50 = findViewById(R.id.tv50);
-        tv51 = findViewById(R.id.tv51);
-        tv52 = findViewById(R.id.tv52);
-        tv53 = findViewById(R.id.tv53);
-        tv54 = findViewById(R.id.tv54);
-
-        // Mostrar la categoría recibida
-        if (tematica != null) {
-            txtCategoria.setText("Categoría: " + tematica);
+            // 6. Que hacer al pulsar "Enviar".
+            btnEnviar.setOnClickListener(v -> enviarIntento());
         }
 
-        // Iniciar el controlador de partida con palabra de prueba
-        controladorPartida = new ControladorPartida();
-        controladorPartida.iniciarPartida("PERRO");
-        txtIntentos.setText("Intentos restantes: " + controladorPartida.getIntentosRestantes());
+        /**
+         * Se ejecuta cuando el jugador pulsa Enviar.
+         */
+        private void enviarIntento() {
+            String intento = editIntento.getText().toString().trim().toUpperCase();
 
-        // C. Acción del botón Comprobar
-        btnComprobar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Si la partida ya terminó, avisamos y no hacemos nada más
-                if (controladorPartida.partidaTerminada()) {
-                    Toast.makeText(juego.this, "La partida ha terminado", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                String palabraIngresada = editPalabra.getText().toString().trim().toUpperCase();
-
-                if (palabraIngresada.isEmpty()) {
-                    Toast.makeText(juego.this, "Escribe una palabra", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (palabraIngresada.length() != 5) {
-                    Toast.makeText(juego.this, "La palabra debe tener 5 letras", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Procesar el intento con el controlador
-                EstadoLetra[] resultado = controladorPartida.procesarIntento(palabraIngresada);
-
-                // Escribir y colorear las letras según la fila actual
-                if (filaActual == 0) {
-                    tv00.setText(String.valueOf(palabraIngresada.charAt(0)));
-                    if (resultado[0] == EstadoLetra.CORRECTA) { tv00.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[0] == EstadoLetra.PRESENTE) { tv00.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv00.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv01.setText(String.valueOf(palabraIngresada.charAt(1)));
-                    if (resultado[1] == EstadoLetra.CORRECTA) { tv01.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[1] == EstadoLetra.PRESENTE) { tv01.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv01.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv02.setText(String.valueOf(palabraIngresada.charAt(2)));
-                    if (resultado[2] == EstadoLetra.CORRECTA) { tv02.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[2] == EstadoLetra.PRESENTE) { tv02.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv02.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv03.setText(String.valueOf(palabraIngresada.charAt(3)));
-                    if (resultado[3] == EstadoLetra.CORRECTA) { tv03.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[3] == EstadoLetra.PRESENTE) { tv03.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv03.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv04.setText(String.valueOf(palabraIngresada.charAt(4)));
-                    if (resultado[4] == EstadoLetra.CORRECTA) { tv04.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[4] == EstadoLetra.PRESENTE) { tv04.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv04.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                } else if (filaActual == 1) {
-                    tv10.setText(String.valueOf(palabraIngresada.charAt(0)));
-                    if (resultado[0] == EstadoLetra.CORRECTA) { tv10.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[0] == EstadoLetra.PRESENTE) { tv10.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv10.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv11.setText(String.valueOf(palabraIngresada.charAt(1)));
-                    if (resultado[1] == EstadoLetra.CORRECTA) { tv11.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[1] == EstadoLetra.PRESENTE) { tv11.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv11.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv12.setText(String.valueOf(palabraIngresada.charAt(2)));
-                    if (resultado[2] == EstadoLetra.CORRECTA) { tv12.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[2] == EstadoLetra.PRESENTE) { tv12.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv12.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv13.setText(String.valueOf(palabraIngresada.charAt(3)));
-                    if (resultado[3] == EstadoLetra.CORRECTA) { tv13.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[3] == EstadoLetra.PRESENTE) { tv13.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv13.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv14.setText(String.valueOf(palabraIngresada.charAt(4)));
-                    if (resultado[4] == EstadoLetra.CORRECTA) { tv14.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[4] == EstadoLetra.PRESENTE) { tv14.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv14.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                } else if (filaActual == 2) {
-                    tv20.setText(String.valueOf(palabraIngresada.charAt(0)));
-                    if (resultado[0] == EstadoLetra.CORRECTA) { tv20.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[0] == EstadoLetra.PRESENTE) { tv20.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv20.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv21.setText(String.valueOf(palabraIngresada.charAt(1)));
-                    if (resultado[1] == EstadoLetra.CORRECTA) { tv21.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[1] == EstadoLetra.PRESENTE) { tv21.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv21.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv22.setText(String.valueOf(palabraIngresada.charAt(2)));
-                    if (resultado[2] == EstadoLetra.CORRECTA) { tv22.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[2] == EstadoLetra.PRESENTE) { tv22.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv22.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv23.setText(String.valueOf(palabraIngresada.charAt(3)));
-                    if (resultado[3] == EstadoLetra.CORRECTA) { tv23.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[3] == EstadoLetra.PRESENTE) { tv23.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv23.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv24.setText(String.valueOf(palabraIngresada.charAt(4)));
-                    if (resultado[4] == EstadoLetra.CORRECTA) { tv24.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[4] == EstadoLetra.PRESENTE) { tv24.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv24.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                } else if (filaActual == 3) {
-                    tv30.setText(String.valueOf(palabraIngresada.charAt(0)));
-                    if (resultado[0] == EstadoLetra.CORRECTA) { tv30.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[0] == EstadoLetra.PRESENTE) { tv30.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv30.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv31.setText(String.valueOf(palabraIngresada.charAt(1)));
-                    if (resultado[1] == EstadoLetra.CORRECTA) { tv31.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[1] == EstadoLetra.PRESENTE) { tv31.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv31.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv32.setText(String.valueOf(palabraIngresada.charAt(2)));
-                    if (resultado[2] == EstadoLetra.CORRECTA) { tv32.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[2] == EstadoLetra.PRESENTE) { tv32.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv32.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv33.setText(String.valueOf(palabraIngresada.charAt(3)));
-                    if (resultado[3] == EstadoLetra.CORRECTA) { tv33.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[3] == EstadoLetra.PRESENTE) { tv33.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv33.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv34.setText(String.valueOf(palabraIngresada.charAt(4)));
-                    if (resultado[4] == EstadoLetra.CORRECTA) { tv34.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[4] == EstadoLetra.PRESENTE) { tv34.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv34.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                } else if (filaActual == 4) {
-                    tv40.setText(String.valueOf(palabraIngresada.charAt(0)));
-                    if (resultado[0] == EstadoLetra.CORRECTA) { tv40.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[0] == EstadoLetra.PRESENTE) { tv40.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv40.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv41.setText(String.valueOf(palabraIngresada.charAt(1)));
-                    if (resultado[1] == EstadoLetra.CORRECTA) { tv41.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[1] == EstadoLetra.PRESENTE) { tv41.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv41.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv42.setText(String.valueOf(palabraIngresada.charAt(2)));
-                    if (resultado[2] == EstadoLetra.CORRECTA) { tv42.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[2] == EstadoLetra.PRESENTE) { tv42.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv42.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv43.setText(String.valueOf(palabraIngresada.charAt(3)));
-                    if (resultado[3] == EstadoLetra.CORRECTA) { tv43.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[3] == EstadoLetra.PRESENTE) { tv43.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv43.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv44.setText(String.valueOf(palabraIngresada.charAt(4)));
-                    if (resultado[4] == EstadoLetra.CORRECTA) { tv44.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[4] == EstadoLetra.PRESENTE) { tv44.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv44.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                } else if (filaActual == 5) {
-                    tv50.setText(String.valueOf(palabraIngresada.charAt(0)));
-                    if (resultado[0] == EstadoLetra.CORRECTA) { tv50.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[0] == EstadoLetra.PRESENTE) { tv50.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv50.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv51.setText(String.valueOf(palabraIngresada.charAt(1)));
-                    if (resultado[1] == EstadoLetra.CORRECTA) { tv51.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[1] == EstadoLetra.PRESENTE) { tv51.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv51.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv52.setText(String.valueOf(palabraIngresada.charAt(2)));
-                    if (resultado[2] == EstadoLetra.CORRECTA) { tv52.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[2] == EstadoLetra.PRESENTE) { tv52.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv52.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv53.setText(String.valueOf(palabraIngresada.charAt(3)));
-                    if (resultado[3] == EstadoLetra.CORRECTA) { tv53.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[3] == EstadoLetra.PRESENTE) { tv53.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv53.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-
-                    tv54.setText(String.valueOf(palabraIngresada.charAt(4)));
-                    if (resultado[4] == EstadoLetra.CORRECTA) { tv54.setBackgroundColor(Color.parseColor("#4CAF50")); }
-                    else if (resultado[4] == EstadoLetra.PRESENTE) { tv54.setBackgroundColor(Color.parseColor("#FFEB3B")); }
-                    else { tv54.setBackgroundColor(Color.parseColor("#9E9E9E")); }
-                }
-
-                filaActual++;
-                txtIntentos.setText("Intentos restantes: " + controladorPartida.getIntentosRestantes());
-                editPalabra.setText("");
-
-                if (controladorPartida.partidaGanada()) {
-                    txtMensajeFinal.setText("¡HAS GANADO!");
-                    Toast.makeText(juego.this, "¡Enhorabuena!", Toast.LENGTH_LONG).show();
-                } else if (controladorPartida.partidaPerdida()) {
-                    txtMensajeFinal.setText("GAME OVER - La palabra era: " + controladorPartida.getPalabraObjetivo());
-                    Toast.makeText(juego.this, "La palabra era: " + controladorPartida.getPalabraObjetivo(), Toast.LENGTH_LONG).show();
-                }
+            // Validar la longitud antes de enviar.
+            if (intento.length() != LONGITUD_PALABRA) {
+                Toast.makeText(this, "La palabra debe tener " + LONGITUD_PALABRA + " letras",
+                        Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
+
+            // Pedir al controlador que procese el intento.
+            EstadoLetra[] resultado = controladorPartida.procesarIntento(intento);
+
+            // Pintar el resultado en la fila actual del tablero.
+            pintarFila(filaActual, intento, resultado);
+            filaActual++;
+
+            // Limpiar el campo de texto para el siguiente intento.
+            editIntento.setText("");
+
+            // Comprobar si la partida termino.
+            if (controladorPartida.partidaGanada()) {
+                txtMensaje.setText("¡GANASTE! 🎉");
+                btnEnviar.setEnabled(false);
+                editIntento.setEnabled(false);
+            } else if (controladorPartida.partidaTerminada()) {
+                // Se acabaron los intentos sin acertar.
+                txtMensaje.setText("¡PERDISTE! La palabra era: "
+                        + controladorPartida.getPalabraObjetivo());
+                btnEnviar.setEnabled(false);
+                editIntento.setEnabled(false);
+            }
+        }
+
+        /**
+         * Pinta una fila del tablero con las letras y sus colores.
+         *
+         * El tablero es un GridLayout con 5x6 = 30 TextView (uno por casilla).
+         * Para acceder a la casilla (fila, columna) se hace:
+         *    tablero.getChildAt(fila * 5 + columna)
+         */
+        private void pintarFila(int fila, String intento, EstadoLetra[] estados) {
+            for (int col = 0; col < LONGITUD_PALABRA; col++) {
+                TextView casilla = (TextView) tablero.getChildAt(fila * LONGITUD_PALABRA + col);
+                casilla.setText(String.valueOf(intento.charAt(col)));
+
+                // Color de fondo segun el estado.
+                int color;
+                switch (estados[col]) {
+                    case CORRECTA:
+                        color = ContextCompat.getColor(this, android.R.color.holo_green_dark);
+                        break;
+                    case PRESENTE:
+                        color = ContextCompat.getColor(this, android.R.color.holo_orange_dark);
+                        break;
+                    default: // AUSENTE
+                        color = ContextCompat.getColor(this, android.R.color.darker_gray);
+                        break;
+                }
+                casilla.setBackgroundColor(color);
+            }
+        }
     }
-}
+

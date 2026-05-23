@@ -33,7 +33,7 @@ public class modo_juego extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(modo_juego.this, "Has seleccionado: Geografía", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(modo_juego.this, juego.class);
+                Intent intent = new Intent(modo_juego.this, MainActivity.class);
                 intent.putExtra("TEMATICA", "Geografía");
                 startActivity(intent);
             }
@@ -44,7 +44,7 @@ public class modo_juego extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(modo_juego.this, "Has seleccionado: Cine", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(modo_juego.this, juego.class);
+                Intent intent = new Intent(modo_juego.this, MainActivity.class);
                 intent.putExtra("TEMATICA", "Cine");
                 startActivity(intent);
             }
@@ -55,7 +55,7 @@ public class modo_juego extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(modo_juego.this, "Has seleccionado: Anatomía", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(modo_juego.this, juego.class);
+                Intent intent = new Intent(modo_juego.this, MainActivity.class);
                 intent.putExtra("TEMATICA", "Anatomía");
                 startActivity(intent);
             }
@@ -66,7 +66,7 @@ public class modo_juego extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(modo_juego.this, "Has seleccionado: Deporte", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(modo_juego.this, juego.class);
+                Intent intent = new Intent(modo_juego.this, MainActivity.class);
                 intent.putExtra("TEMATICA", "Deporte");
                 startActivity(intent);
             }

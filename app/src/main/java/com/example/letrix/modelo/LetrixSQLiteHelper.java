@@ -84,6 +84,10 @@ public class LetrixSQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(CREAR_TABLA_PALABRA);
         db.execSQL(CREAR_TABLA_PARTIDA);
         db.execSQL(CREAR_TABLA_LETRA);
+        db.execSQL("INSERT INTO " + TABLA_CATEGORIA + " (" + COLUMNA_NOMBRE_CATEGORIA + ") VALUES ('geografia')");
+        db.execSQL("INSERT INTO " + TABLA_CATEGORIA + " (" + COLUMNA_NOMBRE_CATEGORIA + ") VALUES ('deporte')");
+        db.execSQL("INSERT INTO " + TABLA_CATEGORIA + " (" + COLUMNA_NOMBRE_CATEGORIA + ") VALUES ('anatomia')");
+        db.execSQL("INSERT INTO " + TABLA_CATEGORIA + " (" + COLUMNA_NOMBRE_CATEGORIA + ") VALUES ('cine')");
     }
 
     @Override

@@ -55,4 +55,22 @@ public class CategoriaDAO {
         }
         return null;
     }
+    // Busca el id de una categoria por su nombre
+    public int buscarIdPorNombre(String nombre) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = null;
+        int id = -1;
+        try {
+            cursor = db.query(LetrixSQLiteHelper.TABLA_CATEGORIA,
+                    new String[]{LetrixSQLiteHelper.COLUMNA_ID},
+                    LetrixSQLiteHelper.COLUMNA_NOMBRE_CATEGORIA + "=?",
+                    new String[]{nombre}, null, null, null);
+            if (cursor.moveToFirst()) {
+                id = cursor.getInt(0);
+            }
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return id;
+    }
 }

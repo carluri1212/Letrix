@@ -2,6 +2,7 @@ package com.example.letrix.vista;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -27,20 +28,48 @@ public class modo_juego extends AppCompatActivity {
         btnAnatomia = findViewById(R.id.btnAnatomia);
         btnDeporte = findViewById(R.id.btnDeporte);
 
-        // Que hacer al pulsar los botones
-        btnGeografia.setOnClickListener(v -> iniciarJuego("Geografía"));
-        btnCine.setOnClickListener(v -> iniciarJuego("Cine"));
-        btnAnatomia.setOnClickListener(v -> iniciarJuego("Anatomía"));
-        btnDeporte.setOnClickListener(v -> iniciarJuego("Deporte"));
-    }
+        // Que hacer al pulsar el boton Geografia
+        btnGeografia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(modo_juego.this, "Has seleccionado: Geografía", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(modo_juego.this, juego.class);
+                intent.putExtra("TEMATICA", "Geografía");
+                startActivity(intent);
+            }
+        });
 
-    /**
-     * Inicia la actividad del juego pasando la temática seleccionada
-     */
-    private void iniciarJuego(String tematica) {
-        Toast.makeText(this, "Has seleccionado: " + tematica, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(modo_juego.this, juego.class);
-        intent.putExtra("TEMATICA", tematica);
-        startActivity(intent);
+        // Que hacer al pulsar el boton Cine
+        btnCine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(modo_juego.this, "Has seleccionado: Cine", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(modo_juego.this, juego.class);
+                intent.putExtra("TEMATICA", "Cine");
+                startActivity(intent);
+            }
+        });
+
+        // Que hacer al pulsar el boton Anatomia
+        btnAnatomia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(modo_juego.this, "Has seleccionado: Anatomía", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(modo_juego.this, juego.class);
+                intent.putExtra("TEMATICA", "Anatomía");
+                startActivity(intent);
+            }
+        });
+
+        // Que hacer al pulsar el boton Deporte
+        btnDeporte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(modo_juego.this, "Has seleccionado: Deporte", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(modo_juego.this, juego.class);
+                intent.putExtra("TEMATICA", "Deporte");
+                startActivity(intent);
+            }
+        });
     }
 }

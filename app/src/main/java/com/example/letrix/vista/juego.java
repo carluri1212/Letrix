@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.letrix.Controlador.ControladorPartida;
-import com.example.letrix.Controlador.EstadoLetra;
+import com.example.letrix.modelo.letra.EstadoLetra;
 import com.example.letrix.R;
 
 public class juego extends AppCompatActivity {

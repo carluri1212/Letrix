@@ -8,12 +8,25 @@
     android:background="#000000"
     tools:context=".vista.modo_juego">
 
+    <!-- Título LETRIX -->
+    <TextView
+        android:id="@+id/txtTituloModo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="LETRIX"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Fila Superior -->
     <ImageButton
         android:id="@+id/btnGeografia"
         android:layout_width="170dp"
         android:layout_height="240dp"
-        android:layout_marginTop="64dp"
         android:adjustViewBounds="true"
         android:background="?android:attr/selectableItemBackground"
         android:scaleType="fitCenter"
@@ -21,7 +34,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnCine"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTituloModo"
         app:layout_constraintVertical_chainStyle="spread_inside"
         app:srcCompat="@drawable/geograf_a" />
 
@@ -83,7 +96,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.522" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

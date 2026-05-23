@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:padding="16dp"
+    tools:context=".vista.juego">
+
+    <!-- Título LETRIX -->
+    <TextView
+        android:id="@+id/txtTituloJuego"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LETRIX"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Categoría -->
+    <TextView
+        android:id="@+id/txtCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Categoría: Geografía"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTituloJuego" />
+
+    <!-- Intentos restantes -->
+    <TextView
+        android:id="@+id/txtIntentos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Intentos restantes: 6"
+        android:textColor="#FFEBEE"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCategoria" />
+
+    <!-- Mensaje Final -->
+    <TextView
+        android:id="@+id/txtMensajeFinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        android:text="HAS GANADO"
+        android:textColor="#4CAF50"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtIntentos" />
+
+    <!-- Contenedor del Tablero (Cuadrícula 6x5) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutTablero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/editPalabra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMensajeFinal">
+
+        <!-- Fila 0 -->
+        <TextView android:id="@+id/tv00" style="@style/CajaLetra" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+        <TextView android:id="@+id/tv01" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv00" app:layout_constraintTop_toTopOf="parent" />
+        <TextView android:id="@+id/tv02" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv01" app:layout_constraintTop_toTopOf="parent" />
+        <TextView android:id="@+id/tv03" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv02" app:layout_constraintTop_toTopOf="parent" />
+        <TextView android:id="@+id/tv04" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv03" app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Fila 1 -->
+        <TextView android:id="@+id/tv10" style="@style/CajaLetra" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tv00" />
+        <TextView android:id="@+id/tv11" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv10" app:layout_constraintTop_toBottomOf="@id/tv00" />
+        <TextView android:id="@+id/tv12" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv11" app:layout_constraintTop_toBottomOf="@id/tv00" />
+        <TextView android:id="@+id/tv13" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv12" app:layout_constraintTop_toBottomOf="@id/tv00" />
+        <TextView android:id="@+id/tv14" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv13" app:layout_constraintTop_toBottomOf="@id/tv00" />
+
+        <!-- Fila 2 -->
+        <TextView android:id="@+id/tv20" style="@style/CajaLetra" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tv10" />
+        <TextView android:id="@+id/tv21" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv20" app:layout_constraintTop_toBottomOf="@id/tv10" />
+        <TextView android:id="@+id/tv22" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv21" app:layout_constraintTop_toBottomOf="@id/tv10" />
+        <TextView android:id="@+id/tv23" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv22" app:layout_constraintTop_toBottomOf="@id/tv10" />
+        <TextView android:id="@+id/tv24" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv23" app:layout_constraintTop_toBottomOf="@id/tv10" />
+
+        <!-- Fila 3 -->
+        <TextView android:id="@+id/tv30" style="@style/CajaLetra" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tv20" />
+        <TextView android:id="@+id/tv31" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv30" app:layout_constraintTop_toBottomOf="@id/tv20" />
+        <TextView android:id="@+id/tv32" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv31" app:layout_constraintTop_toBottomOf="@id/tv20" />
+        <TextView android:id="@+id/tv33" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv32" app:layout_constraintTop_toBottomOf="@id/tv20" />
+        <TextView android:id="@+id/tv34" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv33" app:layout_constraintTop_toBottomOf="@id/tv20" />
+
+        <!-- Fila 4 -->
+        <TextView android:id="@+id/tv40" style="@style/CajaLetra" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tv30" />
+        <TextView android:id="@+id/tv41" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv40" app:layout_constraintTop_toBottomOf="@id/tv30" />
+        <TextView android:id="@+id/tv42" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv41" app:layout_constraintTop_toBottomOf="@id/tv30" />
+        <TextView android:id="@+id/tv43" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv42" app:layout_constraintTop_toBottomOf="@id/tv30" />
+        <TextView android:id="@+id/tv44" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv43" app:layout_constraintTop_toBottomOf="@id/tv30" />
+
+        <!-- Fila 5 -->
+        <TextView android:id="@+id/tv50" style="@style/CajaLetra" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tv40" />
+        <TextView android:id="@+id/tv51" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv50" app:layout_constraintTop_toBottomOf="@id/tv40" />
+        <TextView android:id="@+id/tv52" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv51" app:layout_constraintTop_toBottomOf="@id/tv40" />
+        <TextView android:id="@+id/tv53" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv52" app:layout_constraintTop_toBottomOf="@id/tv40" />
+        <TextView android:id="@+id/tv54" style="@style/CajaLetra" app:layout_constraintStart_toEndOf="@id/tv53" app:layout_constraintTop_toBottomOf="@id/tv40" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Entrada de palabra -->
+    <EditText
+        android:id="@+id/editPalabra"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="ESCRIBE TU PALABRA"
+        android:inputType="textCapCharacters"
+        android:maxLength="5"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#88FFEBEE"
+        app:layout_constraintBottom_toTopOf="@+id/btnComprobar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Botón Comprobar -->
+    <Button
+        android:id="@+id/btnComprobar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"
+        android:text="COMPROBAR"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

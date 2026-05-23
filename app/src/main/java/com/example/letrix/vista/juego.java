@@ -68,7 +68,19 @@ import com.example.letrix.modelo.palabra.PalabraDAO;
 
             // 4. Crear el controlador de partida y arrancar la partida.
             controladorPartida = new ControladorPartida();
-            controladorPartida.iniciarPartida(palabra.getTexto());
+
+            PalabraDAO palabraDAO = new PalabraDAO(juego.this);
+            String idCategoria = "1";
+            if ("Cine".equals(tematica)) { idCategoria = "2"; }
+            else if ("Anatomía".equals(tematica)) { idCategoria = "3"; }
+            else if ("Deporte".equals(tematica)) { idCategoria = "4"; }
+
+            Palabra palabra = palabraDAO.obtenerPalabraAleatoria(idCategoria);
+            if (palabra != null) {
+                controladorPartida.iniciarPartida(palabra.getTexto());
+            } else {
+                controladorPartida.iniciarPartida("PERRO");
+            }
 
             // 5. Enlazar elementos de la pantalla.
             tablero = findViewById(R.id.tablero);

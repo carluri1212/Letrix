@@ -1,7 +1,8 @@
 package com.example.letrix.modelo.categoria;
 
 public class Categoria {
-
+    //Creamos la clase Categoría para seleccionar que tipo de categoría queremos jugar en la vista
+    //Clse con getters , setters , etc .
     private String id;
     private String nombreCategoria;
 

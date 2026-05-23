@@ -1,7 +1,6 @@
 package com.example.letrix.modelo.partida;
 
-import java.time.LocalDateTime;
-
+//Creamos la clase Partida para asignar los atributos de Usuario, etc. Y comenzar una partida
 public class Partida {
 
     private int id;

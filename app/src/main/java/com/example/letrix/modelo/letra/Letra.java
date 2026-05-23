@@ -1,5 +1,6 @@
 package com.example.letrix.modelo.letra;
 
+//Creamos la clase letra para representar cada casilla individual del tablero del juego.
 public class Letra {
 
     private int id;

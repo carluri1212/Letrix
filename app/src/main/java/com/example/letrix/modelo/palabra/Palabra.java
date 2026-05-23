@@ -1,6 +1,7 @@
 package com.example.letrix.modelo.palabra;
 
 public class Palabra {
+    //Clase Palabra para asignar una palabra según el idCategoria.
 
     private String id;
     private String texto;

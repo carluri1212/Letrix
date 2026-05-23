@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Letrix">
         <activity
-            android:name=".vista.juego"
-            android:exported="false" />
-        <activity
             android:name=".vista.Juego"
             android:exported="false" />
         <activity

@@ -9,11 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.letrix.Controlador.ControladorFichero;
 import com.example.letrix.Controlador.ControladorUsuario;
 import com.example.letrix.Controlador.ResultadoOperacion;
 import com.example.letrix.R;
-import com.example.letrix.modelo.UsuarioDAO;
-import com.example.letrix.Controlador.ControladorFichero;
 
 public class inicio_sesion extends AppCompatActivity {
 
@@ -27,26 +26,20 @@ public class inicio_sesion extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_sesion);
         controladorUsuario = new ControladorUsuario(this);
 
-        // Cargar el diccionario de palabras la primera vez que arranca la app.
+        // Cargamos el diccionario la primera vez que arranca la app.
         ControladorFichero controladorFichero = new ControladorFichero(this);
         controladorFichero.cargarDiccionarioSiVacio();
 
-        // Enlazar con el layout
         editUsuario = findViewById(R.id.editUsuario);
         editContrasena = findViewById(R.id.editContrasena);
         Button btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
+        Button btnRegistrate = findViewById(R.id.button);
 
-        // Que hacer al pulsar el boton Iniciar Sesión
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String usuario = editUsuario.getText().toString();
                 String contrasena = editContrasena.getText().toString();
-
-                if (usuario.isEmpty() || contrasena.isEmpty()) {
-                    Toast.makeText(inicio_sesion.this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 ResultadoOperacion resultado = controladorUsuario.iniciarSesion(usuario, contrasena);
                 Toast.makeText(inicio_sesion.this, resultado.getMensaje(), Toast.LENGTH_SHORT).show();
@@ -58,9 +51,6 @@ public class inicio_sesion extends AppCompatActivity {
                 }
             }
         });
-
-        // Botón registro
-        Button btnRegistrate = findViewById(R.id.button);
 
         btnRegistrate.setOnClickListener(new View.OnClickListener() {
             @Override

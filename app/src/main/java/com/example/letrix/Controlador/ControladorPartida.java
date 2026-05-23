@@ -4,16 +4,16 @@ import com.example.letrix.modelo.letra.EstadoLetra;
 
 import java.util.HashMap;
 public class ControladorPartida {
-    // Numero maximo de intentos por partida (como en Wordle: 6).
+    // max 6 intentos
     private static final int MAX_INTENTOS = 6;
 
-    // La palabra que el jugador tiene que adivinar.
+    // palabra a adivinar
     private String palabraObjetivo;
 
-    // Cuantos intentos ha gastado ya el jugador.
+    // intentos usados
     private int intentosUsados;
 
-    // True cuando el jugador ha acertado la palabra.
+    // true si ganó
     private boolean ganada;
 
     public void iniciarPartida(String objetivo) {

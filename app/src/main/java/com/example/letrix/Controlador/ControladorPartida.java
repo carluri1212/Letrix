@@ -1,6 +1,10 @@
 package com.example.letrix.Controlador;
 
 import com.example.letrix.modelo.letra.EstadoLetra;
+import android.content.Context;
+import com.example.letrix.modelo.categoria.CategoriaDAO;
+import com.example.letrix.modelo.palabra.Palabra;
+import com.example.letrix.modelo.palabra.PalabraDAO;
 
 import java.util.HashMap;
 public class ControladorPartida {
@@ -16,6 +20,25 @@ public class ControladorPartida {
     // true si ganó
     private boolean ganada;
 
+    /**
+     * Inicia una partida pidiendo una palabra al azar al DAO según la categoría.
+     * La vista solo llama a este método y no necesita conocer los DAOs.
+     *
+     * @return true si se encontró palabra y arrancó la partida, false si no había palabras
+     */
+    public boolean iniciarPartidaPorCategoria(Context context, String categoria) {
+        CategoriaDAO categoriaDAO = new CategoriaDAO(context);
+        int idCategoria = categoriaDAO.buscarIdPorNombre(categoria);
+
+        PalabraDAO palabraDAO = new PalabraDAO(context);
+        Palabra palabra = palabraDAO.obtenerPalabraAleatoria(String.valueOf(idCategoria));
+
+        if (palabra == null) {
+            return false;
+        }
+        iniciarPartida(palabra.getTexto());
+        return true;
+    }
     public void iniciarPartida(String objetivo) {
         this.palabraObjetivo = objetivo.trim().toUpperCase();
         this.intentosUsados =0;

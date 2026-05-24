@@ -39,10 +39,12 @@ public class Juego extends AppCompatActivity {
 
         controladorPartida = new ControladorPartida();
 
-        // TODO: cuando tu compañero añada iniciarPartidaPorCategoria al
-        // ControladorPartida, sustituye la línea de abajo por:
-        // controladorPartida.iniciarPartidaPorCategoria(this, categoria);
-        controladorPartida.iniciarPartida("PERRO");
+        boolean ok = controladorPartida.iniciarPartidaPorCategoria(Juego.this, categoria);
+        if (!ok) {
+            Toast.makeText(Juego.this, "No hay palabras en esta categoría", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
 
         txtMensaje = findViewById(R.id.txtMensaje);
         editIntento = findViewById(R.id.editIntento);

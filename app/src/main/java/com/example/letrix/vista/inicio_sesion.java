@@ -26,7 +26,6 @@ public class inicio_sesion extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_sesion);
         controladorUsuario = new ControladorUsuario(this);
 
-        // Cargamos el diccionario la primera vez que arranca la app.
         ControladorFichero controladorFichero = new ControladorFichero(this);
         controladorFichero.cargarDiccionarioSiVacio();
 

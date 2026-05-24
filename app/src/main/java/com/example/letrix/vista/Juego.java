@@ -14,7 +14,7 @@ import com.example.letrix.Controlador.ControladorPartida;
 import com.example.letrix.R;
 import com.example.letrix.modelo.letra.EstadoLetra;
 
-public class juego extends AppCompatActivity {
+public class Juego extends AppCompatActivity {
 
     TextView txtMensaje;
     EditText editIntento;
@@ -77,19 +77,19 @@ public class juego extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (controladorPartida.partidaTerminada()) {
-                    Toast.makeText(juego.this, "La partida ha terminado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Juego.this, "La partida ha terminado", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 String intento = editIntento.getText().toString().trim().toUpperCase();
 
                 if (intento.isEmpty()) {
-                    Toast.makeText(juego.this, "Escribe una palabra", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Juego.this, "Escribe una palabra", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (intento.length() != 5) {
-                    Toast.makeText(juego.this, "La palabra debe tener 5 letras", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Juego.this, "La palabra debe tener 5 letras", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

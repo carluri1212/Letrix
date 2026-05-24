@@ -38,8 +38,14 @@ public class inicio_sesion extends AppCompatActivity {
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String usuario = editUsuario.getText().toString();
                 String contrasena = editContrasena.getText().toString();
+
+                if (usuario.isEmpty() || contrasena.isEmpty()) {
+                    Toast.makeText(inicio_sesion.this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 ResultadoOperacion resultado = controladorUsuario.iniciarSesion(usuario, contrasena);
                 Toast.makeText(inicio_sesion.this, resultado.getMensaje(), Toast.LENGTH_SHORT).show();

@@ -87,23 +87,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editContrasena" />
 
-    <androidx.constraintlayout.helper.widget.Layer
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="134dp"
-        android:layout_marginTop="37dp"
-        android:layout_marginEnd="134dp"
-        app:layout_constraintEnd_toEndOf="@+id/btnIniciarSesion"
-        app:layout_constraintStart_toStartOf="@+id/editUsuario"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <androidx.constraintlayout.helper.widget.Layer
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <TextView
         android:id="@+id/textView2"

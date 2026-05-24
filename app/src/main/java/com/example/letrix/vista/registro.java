@@ -35,6 +35,11 @@ public class registro extends AppCompatActivity {
                 String usuario = editUsuario.getText().toString();
                 String contrasena = editContrasena.getText().toString();
 
+                if (usuario.isEmpty() || contrasena.isEmpty()) {
+                    Toast.makeText(registro.this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 ResultadoOperacion resultado = controladorUsuario.registrarUsuario(usuario, contrasena);
                 Toast.makeText(registro.this, resultado.getMensaje(), Toast.LENGTH_SHORT).show();
 

@@ -13,9 +13,8 @@ public class ControladorUsuario {
 
     private final UsuarioDAOInterfaz usuarioDAO;
 
-    // El controlador recibe el Context (el "entorno" de Android, que en
-    // la practica es la Activity que lo crea) y con el crea el DAO por
-    // dentro. Asi la vista no tiene que saber nada del DAO.
+    // Recibe el contexto de la Activity y crea el DAO por dentro,
+    // así la vista no tiene que tocar el modelo.
     public ControladorUsuario(Context context) {
         this.usuarioDAO = new UsuarioDAO(context);
     }
